@@ -1,12 +1,14 @@
 const thing = require("../models/thing");
 
 exports.createThing = (req,res, next) =>{
-    delete req.body._id;
+    const thingObject = JSON.parse(req.body.sauce);
+    delete thingObject._id;
     const productThing = new thing({
-        ...req.body
+        ...thingObject,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
 
-    thing.save()
+    productThing.save()
         .then(() => res.status(201).json({message : "Sauce crée."}))
         .catch(err => res.status(400).json({err}));
 };
