@@ -18,9 +18,20 @@ exports.modifyThing = (req, res, next) =>{
 };
 
 exports.deleteThing = (req, res, next) =>{
-    thing.deleteOne({_id: req.params.id})
-    .then(() => res.status(200).json({message : "Sauce supprimée."}))
-    .catch(err => res.status(400).json({err}));
+    thing.findOne({ _id: req.params.id})
+        .then(thing =>{
+            if(!thing){
+                return res.status(404).json({err: new Error("Objet non trouvé")});
+            }
+            
+            if(thing.userId !== req.auth.userId){
+                return res.status(401).json({err: new Error("Requête non autorisée !")});
+            }
+
+            thing.deleteOne({_id: req.params.id})
+            .then(() => res.status(200).json({message : "Sauce supprimée."}))
+            .catch(err => res.status(400).json({err}));
+    });
 };
 
 exports.readThing = (req, res, next) =>{
