@@ -5,11 +5,11 @@ const mongoose = require("mongoose");
 const path = require("path");
 const helmet = require("helmet");
 
-
 const saucesRoutes = require("./routes/stuff");
 const userRoutes = require("./routes/user");
 
-mongoose.connect('mongodb+srv://skagato:steven123@cluster0.gtbg8.mongodb.net/P6?retryWrites=true&w=majority', { 
+require('dotenv').config();
+mongoose.connect(process.env.mongo, { 
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -18,14 +18,7 @@ mongoose.connect('mongodb+srv://skagato:steven123@cluster0.gtbg8.mongodb.net/P6?
 
 app.use(express.json());
 app.use(cors());
-app.use(helmet());
-
-/* app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-    next();
-}); */
+app.use(helmet({crossOriginResourcePolicy : false,})); 
 
 app.use("/images", express.static(path.join(__dirname, "images")));
 

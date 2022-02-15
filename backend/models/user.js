@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
+const expressValidator = require("express-validator");
 
+// template utilisateur
 const userSchema = mongoose.Schema({
     email: {type: String, required: true, unique: true},
     password: {type: String, required:true},
@@ -8,4 +10,4 @@ const userSchema = mongoose.Schema({
 
 userSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("User", userSchema);

@@ -1,4 +1,4 @@
-const user = require("../models/user");
+const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
@@ -12,7 +12,7 @@ exports.signup = (req, res, next) =>{
 
     bcrypt.hash(req.body.password, 10)
         .then(hash =>{
-            const newUser = new user({
+            const newUser = new User({
                 email: req.body.email,
                 password : hash,
             });
@@ -31,8 +31,8 @@ exports.login = (req, res, next) =>{
     if(!errors.isEmpty){
         return res.status(400).json({errors : errors.array})
     }
-    
-    user.findOne({email: req.body.email})
+
+    User.findOne({email: req.body.email})
         .then(user =>{
             if(!user){
                 return res.status(401).json({error: "Utilisateur inexistant !"})
@@ -46,7 +46,7 @@ exports.login = (req, res, next) =>{
                                 userId: user._id,
                                 token: jwt.sign(
                                     {userId: user._id},
-                                    "RANDOM_TOKEN_SECRET",
+                                    process.env.passwordToken,
                                     {expiresIn: "24h"}
                                 )
                             });
