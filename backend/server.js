@@ -1,4 +1,4 @@
-const http = require('http');
+const http = require('http'); // Mettre en HTTPS 
 const app = require('./app');
 
 const normalizePort = val => {
