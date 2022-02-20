@@ -1,7 +1,9 @@
+// dependances 
 const Thing = require("../models/Thing");
 const fs = require("fs");
 const { body, validationResult } = require("express-validator");
 
+// Controller création de sauce
 exports.createThing = (req,res, next) =>{
     const errors = validationResult(req);
 
@@ -21,6 +23,7 @@ exports.createThing = (req,res, next) =>{
         .catch(err => res.status(400).json({err}));
 };
 
+// Controller modification de sauce
 exports.modifyThing = (req, res, next) =>{
     let thingObject = undefined;
     if(req.file){
@@ -43,6 +46,7 @@ exports.modifyThing = (req, res, next) =>{
         .catch(err => res.status(400).json({err}));
 };
 
+// Controller Supression de sauce
 exports.deleteThing = (req, res, next) =>{
     Thing.findOne({ _id: req.params.id})
         .then(thing =>{
@@ -63,18 +67,21 @@ exports.deleteThing = (req, res, next) =>{
     });
 };
 
+// Controller Affichage des Sauces
 exports.readThing = (req, res, next) =>{
     Thing.find()
         .then(things => res.status(200).json(things))
         .catch(err => res.status(400).json(err));
 };
 
+// Controller pour afficher une sauce unique
 exports.readOneThing = (req, res, next) =>{
     Thing.findOne({_id: req.params.id})
         .then(thing => res.status(200).json(thing))
         .catch(err => res.status(404).json(err)); 
 };
 
+// Controller Like et Dislike
 exports.likeDislikeThing = (req, res, next) =>{
     const userId = req.body.userId;
     const like = req.body.like;
