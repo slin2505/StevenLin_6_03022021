@@ -1,8 +1,10 @@
+// dependances 
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 
+// Controller Signup 
 exports.signup = (req, res, next) =>{
     const errors = validationResult(req);
 
@@ -10,6 +12,7 @@ exports.signup = (req, res, next) =>{
         return res.status(400).json({errors : errors.array})
     }
 
+    // Hash du password et création d'un nouveau utilisateur sur MongoDB
     bcrypt.hash(req.body.password, 10)
         .then(hash =>{
             const newUser = new User({
@@ -24,6 +27,7 @@ exports.signup = (req, res, next) =>{
         .catch(err => res.status(500).json({err}));
 };
 
+// Controller Login
 exports.login = (req, res, next) =>{
 
     const errors = validationResult(req);
@@ -32,6 +36,7 @@ exports.login = (req, res, next) =>{
         return res.status(400).json({errors : errors.array})
     }
 
+    // on cherche l'email dans la base donnée et ensuite on compare les passwords
     User.findOne({email: req.body.email})
         .then(user =>{
             if(!user){

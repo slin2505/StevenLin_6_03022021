@@ -1,11 +1,13 @@
+// dependances 
 const express = require("express");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
 
+// Controller + middleware
 const userCtrl = require("../controllers/user");
 const passwordCtrl = require("../middleware/passwordValidator");
 
-//routes
+//routes signUp et login
 router.post("/signup",[
     body("email")
     .trim()

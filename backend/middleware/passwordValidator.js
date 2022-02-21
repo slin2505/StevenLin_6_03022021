@@ -1,5 +1,7 @@
+// dependances 
 const passwordValidator = require("password-validator");
 
+// Création du modèle pour le passwordValidator
 const passwordSchema = new passwordValidator();
 
 passwordSchema
@@ -11,6 +13,7 @@ passwordSchema
 .has().not().spaces()                          
 .is().not().oneOf(['Passw0rd', 'Password123', "Azerty123"]); 
 
+// Vérification du password s'il correspond aux attentes du modèle
 module.exports = (req, res,next) =>{
     if(passwordSchema.validate(req.body.password)){
         next()

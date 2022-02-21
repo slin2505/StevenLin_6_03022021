@@ -1,3 +1,4 @@
+// dependances 
 const mongoose = require("mongoose");
 
 // template sauce
@@ -15,4 +16,4 @@ const thingSchema = mongoose.Schema({
     usersDisliked : {type : Array, required : false},
 });
 
-module.exports = mongoose.model("thing", thingSchema);
+module.exports = mongoose.model("Thing", thingSchema);

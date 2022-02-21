@@ -1,11 +1,14 @@
+// dependances 
 const multer = require("multer");
 
+// types de fichier image
 const MIME_TYPES = {
     "image/jpg" : "jpg",
     "image/jpeg": "jpg",
     "image/png": "png",
 }
 
+// On donne le dossier des images + les types de fichier et ensuite on créer le fichier à partir de l'image reçu
 const storage = multer.diskStorage({
     destination: (req, file, callback) =>{
         callback(null, "images")
